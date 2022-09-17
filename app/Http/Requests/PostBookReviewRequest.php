@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class PostBookReviewRequest extends FormRequest
 {
@@ -14,7 +15,8 @@ class PostBookReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //@todo code here
+            'review'=>['integer','numeric','min:1','max:10'],
+            'comment'=>'string'
         ];
     }
 }

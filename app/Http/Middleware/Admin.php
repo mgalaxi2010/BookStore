@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Admin
 {
@@ -16,8 +17,9 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        // @TODO implement
-
-        return $next($request);
+        if($request->user() && $request->user()->is_admin) {
+            return $next($request);
+        }
+        return response()->json(['error' => 'admins only!'], 401);
     }
 }
