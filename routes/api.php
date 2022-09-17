@@ -18,7 +18,7 @@ Route::prefix('books')->group(function (){
 
     Route::middleware(['auth','check.token'])->group(function () {
 
-        Route::post('', 'BooksController@post')->middleware(['auth.admin']);
+        Route::post('', 'BooksController@post')->middleware('auth.admin');
         Route::post('{book}/reviews', 'BooksController@postReview');
 
     });

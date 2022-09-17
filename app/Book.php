@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Http\Resources\BookReviewResource;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
@@ -43,14 +45,15 @@ class Book extends Model
 
     public function scopeSortBy($query, $request)
     {
-        $query->when(!empty($request->get('sortColumn') && !empty($request->get('sortDirection'))), function ($query) use ($request) {
+        $query->when(!empty($request->get('sortColumn')), function ($query) use ($request) {
             if ($request->get('sortColumn') == 'avg_review') {
-                return $query->whereHas('reviews', function ($query) use ($request) {
+                return $query->with(['reviews'=> function ($query) use ($request) {
                     return $query->orderBy('avg(review)', $request->get('sortDirection'));
-                });
+                }]);
 
             }
-            return $query->orderBy($request->get('sortColumn'), $request->get('sortDirection'));
+            return $query->orderBy($request->get('sortColumn'), $request->get('sortDirection') ?? 'asc');
+
         });
     }
 }

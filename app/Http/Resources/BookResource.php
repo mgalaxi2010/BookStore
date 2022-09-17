@@ -26,7 +26,7 @@ class BookResource extends JsonResource
             'description'=>$this->description,
             'authors'=> AuthorResource::collection($this->authors),
             'review'=> [
-                'avg'=>$this->reviews()->avg('review'),
+                'avg'=>(int)round($this->reviews()->avg('review'))??0,
                 'count'=>$this->reviews()->count()
             ]
         ];

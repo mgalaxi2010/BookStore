@@ -20,6 +20,6 @@ class Admin
         if($request->user() && $request->user()->is_admin) {
             return $next($request);
         }
-        return response()->json(['error' => 'admins only!'], 401);
+        return response()->json(['error' => 'admins only!'], 403);
     }
 }
